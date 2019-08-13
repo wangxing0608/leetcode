@@ -6,20 +6,27 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        unordered_map<int, int> m;
-        vector<int> res;
-        for (int i = 0; i < nums.size(); ++i) {
-            m[nums[i]] = i;
-        }
-        for (int i = 0; i < nums.size(); ++i) {
-            int t = target - nums[i];
-            if (m.count(t) && m[t] != i) {
-                res.push_back(i);
-                res.push_back(m[t]);
-                break;
-            }
-        }
-        return res;
+       map<int, int> numsMap;
+       vector<int> ans;
+       // 建立数组中数值和位置的映射
+       for (auto i = 0; i < nums.size(); ++i)
+       {
+           numsMap[nums[i]] = i;
+       }
+
+       for (int i = 0; i < nums.size(); ++i)
+       {
+           // 求得另外一个数值
+           int v = target - nums[i];
+
+           if (numsMap.count(v) && numsMap[v] != i)
+           {
+               ans.push_back(i);
+               ans.push_back(numsMap[v]);
+               return ans;
+           }
+       }
+       return ans;
     }
 };
 
