@@ -1,2 +1,2 @@
 # leetcode
-我的leetcode刷题之旅
+我的leetcode学习刷题之旅
