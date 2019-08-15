@@ -33,7 +33,7 @@ public:
         for (int i = 0; i < s.size(); ++i)
         {
             // 如果当前值比前一个值大,则该段的值应该是当前值减去上一个值:IV = 4 = 5 - 1
-            if (i > 0 && c2n(s[i]) > c2n(s[i-1]))
+            if (i > 0 && (c2n(s[i]) > c2n(s[i-1])))
             {
                 result += (c2n(s[i]) - 2 * c2n(s[i-1]));
             }

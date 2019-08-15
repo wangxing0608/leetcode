@@ -41,19 +41,29 @@
 class Solution {
 public:
     string longestCommonPrefix(vector<string>& strs) {
-        if (strs.empty()) 
-        return "";
-        string res = "";
-        for (int j = 0; j < strs[0].size(); ++j) {
-            char c = strs[0][j];
-            for (int i = 1; i < strs.size(); ++i) {
-                if (j >= strs[i].size() || strs[i][j] != c) {
-                    return res;
-                }
-            }
-            res.push_back(c);
-        }
-        return res;
+       // 如果保存字符串的数组为空
+       if (strs.empty())
+       {
+           return "";
+       }
+       // 保存最长公共前缀
+       string result = "";
+       for (int i = 0; i < strs[0].size(); ++i)
+       {
+           char c = strs[0][i]; 
+           // 遍历字符串数组中的其他字符串,检查是否在相同位置的字符相等
+           for (int j = 1; j < strs.size(); ++j)
+           {
+               // 如果当前最长公共前缀长度超过了字符串数组中较短的字符串长度
+               // 或者相同位置的字符串不相同,则返回结果字符串
+               if (i >= strs[j].size() || strs[j][i] != c)
+               {
+                   return result;
+               }
+           }
+           result.push_back(c);
+       }
+       return result;
     }
 };
 
