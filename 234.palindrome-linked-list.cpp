@@ -14,42 +14,40 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        // 链表为空或链表只有一个元素
-        if (head == nullptr || head -> next == nullptr)
+        // 链表为空或只有一个节点
+        if (!head || head -> next == nullptr)
         {
             return true;
         }
-        ListNode *fast = head;
-        ListNode *slow = head;
 
-        // 使用栈保存链表中一半的节点
-        std::stack<ListNode *> nodeStack;
+        ListNode *slow = head;  // 慢指针
+        ListNode *fast = head;  // 快指针
 
-        while (slow && fast && fast -> next)
+        while (fast -> next && fast -> next -> next)
         {
+            slow = slow -> next;
             fast = fast -> next -> next;
-            nodeStack.push(slow);
-            slow = slow -> next;
         }
-
-        // 链表节点数为奇数
-        if (fast && fast -> next == nullptr)
+        ListNode *last = slow -> next;
+        ListNode *pre = head;
+        // 将链表的后半部分翻转
+        while (last -> next)
+        {
+            ListNode *tmp = last -> next;
+            last -> next = tmp -> next;
+            tmp -> next = slow -> next;
+            slow -> next = tmp;
+        }
+        // 比较链表的前半部分及后半部分是否相等
+        while (slow -> next)
         {
             slow = slow -> next;
-        }
-
-        // 通过出栈操作比较链表和它的逆链表
-        while (!nodeStack.empty() && slow)
-        {
-            ListNode *curr = nodeStack.top();
-            nodeStack.pop();
-            if (curr -> val != slow -> val)
+            if (pre -> val != slow -> val)
             {
                 return false;
             }
-            slow = slow -> next;
+            pre = pre -> next;
         }
-
         return true;
     }
 };
