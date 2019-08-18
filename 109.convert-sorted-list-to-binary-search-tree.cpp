@@ -56,7 +56,37 @@
 class Solution {
 public:
     TreeNode* sortedListToBST(ListNode* head) {
-        
+        // 链表为空
+        if (!head)
+        {
+            return nullptr;
+        }
+        // 链表只有一个节点
+        if (head -> next == nullptr)
+        {
+            return new TreeNode( head -> val);
+        }
+
+        ListNode *slow = head;  // 慢指针
+        ListNode *fast = head;  // 快指针
+        ListNode *last = slow;  //指向左子树的最后一个节点
+        // slow指针找到链表的中间节点
+        while (fast -> next && fast -> next -> next)
+        {
+            last = slow;
+            slow = slow -> next;
+            fast = fast -> next -> next;
+        }
+        fast = slow -> next;     // fast 指针指向右子树的开始
+        last -> next = nullptr;  // last -> next 重置为nullptr
+        TreeNode *cur = new TreeNode(slow -> val); // 创建二叉树根节点
+        // 当前节点的左子树中有节点
+        if (head != slow)
+        {
+            cur -> left = sortedListToBST(head);  // 递归遍历左子树
+        }
+        cur -> right = sortedListToBST(fast);     // 递归遍历右子树
+        return cur;
     }
 };
 
