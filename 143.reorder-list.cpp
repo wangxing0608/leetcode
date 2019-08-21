@@ -42,7 +42,33 @@
 class Solution {
 public:
     void reorderList(ListNode* head) {
-        
+        // 链表为空或链表只含一个节点或链表只含两个节点
+        if (!head || !head -> next || !head -> next -> next)
+        {
+            return;
+        }
+
+        // 将链表后半部分反转的栈
+        stack<ListNode *> stack;
+        ListNode * cur = head;
+        while (cur)
+        {
+            stack.push(cur);
+            cur = cur -> next;
+        }
+
+        int cnt = ((int)stack.size() -1) / 2;
+        cur = head;
+        while (cnt-- > 0)
+        {
+            auto tmp = stack.top();  // 保存存栈中弹出的节点
+            stack.pop();
+            ListNode *next = cur -> next;  // next指针保存现在顺序下cur后继节点
+            cur -> next = tmp;             // 将栈中弹出节点链接到cur节点后
+            tmp -> next = next;            // next节点连接到栈中弹出节点后 
+            cur = next;                    // cur指针指向next节点
+        }
+        stack.top() -> next = nullptr;     // 栈中最后一个节点的后继节点设为nullptr,防止重排后链表出现环 
     }
 };
 
