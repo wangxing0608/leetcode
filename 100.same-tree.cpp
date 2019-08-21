@@ -68,7 +68,10 @@
 class Solution {
 public:
     bool isSameTree(TreeNode* p, TreeNode* q) {
+<<<<<<< HEAD
         // 此题提交有剧毒
+=======
+>>>>>>> 7d9164a28b6d2cd9b6163522493280c8c5aa32bd
         stack<TreeNode*> s1, s2;
         if (p) s1.push(p);
         if (q) s2.push(q);
