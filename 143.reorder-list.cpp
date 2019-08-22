@@ -42,33 +42,44 @@
 class Solution {
 public:
     void reorderList(ListNode* head) {
-        // 链表为空或链表只含一个节点或链表只含两个节点
         if (!head || !head -> next || !head -> next -> next)
         {
             return;
         }
 
-        // 将链表后半部分反转的栈
-        stack<ListNode *> stack;
-        ListNode * cur = head;
-        while (cur)
+        // 创建快慢指针
+        ListNode *slow = head;
+        ListNode *fast = head;
+
+        while (fast -> next && fast -> next -> next )
         {
-            stack.push(cur);
-            cur = cur -> next;
+            slow = slow -> next;
+            fast = fast -> next -> next;
         }
 
-        int cnt = ((int)stack.size() -1) / 2;
-        cur = head;
-        while (cnt-- > 0)
+        ListNode *mid = slow -> next;  //  链表后半部分的开始
+        slow -> next =  nullptr;  // 断开链表的前半部分和后半部分
+        ListNode *last = mid;     // 反转后指向链表的最后一个节点
+        ListNode *pre = nullptr;  // 反转后指向链表的第一个节点
+        
+        // 将链表的后半部分反转
+        while (last)
         {
-            auto tmp = stack.top();  // 保存存栈中弹出的节点
-            stack.pop();
-            ListNode *next = cur -> next;  // next指针保存现在顺序下cur后继节点
-            cur -> next = tmp;             // 将栈中弹出节点链接到cur节点后
-            tmp -> next = next;            // next节点连接到栈中弹出节点后 
-            cur = next;                    // cur指针指向next节点
+            ListNode *next = last -> next;  // next指向当前节点的下一个节点
+            last -> next = pre;    // 反转链表
+            pre = last;            // 反转链表 
+            last = next;           // last 移动到下一个需要反转的节点 
         }
-        stack.top() -> next = nullptr;     // 栈中最后一个节点的后继节点设为nullptr,防止重排后链表出现环 
+        
+        // 将链表前半部分和反转后的后半部分进行重排序
+        while (head && pre)
+        {
+            ListNode *next = head -> next;
+            head -> next = pre;
+            pre = pre -> next;
+            head -> next -> next = next;
+            head = next;
+        }
     }
 };
 
