@@ -27,7 +27,8 @@ public:
 
         while (i < n && str[i] >= '0' && str[i] <= '9')
         {
-            if (base > INT_MAX / 10 || (base == INT_MAX / 10 - '0' > 7))
+            // 超过了32整型值能表示的最大范围,返回INT_MAX或INT_MIN
+            if (base > INT_MAX / 10 || (base == INT_MAX / 10 && str[i] - '0' > 7))
             {
                 return (sign == 1) ? INT_MAX : INT_MIN;
             }
