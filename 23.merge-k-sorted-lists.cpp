@@ -40,7 +40,60 @@
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        
+        // 链表组为空
+        if (lists.empty())
+        {
+            return nullptr;
+        }
+        // 待排序的链表数
+        int n = lists.size();
+        while (n > 1)
+        {
+            int k = (n + 1) / 2;       // 待合并的两个链表的距离
+            for (int i = 0; i < n / 2; ++i)
+            {
+                lists[i] = mergeTwoLists(lists[i], lists[i + k]);
+            }
+            n = k; 
+        }
+        return lists[0];
     }
+
+    // 合并两个链表的辅助函数
+    ListNode * mergeTwoLists(ListNode *l1, ListNode *l2)
+    {
+        ListNode * dummy = new ListNode(-1);      // dummy指向新建链表的头节点
+        ListNode *cur = dummy;                    // 新链表待插入元素的位置
+        // 两个链表都不为空
+        while (l1 && l2)
+        {
+            if (l1 -> val <= l2 -> val)
+            {
+                cur -> next = l1;
+                l1 = l1 -> next;
+            }
+            else
+            {
+                cur -> next = l2;
+                l2 = l2 -> next;
+            }
+            cur = cur -> next;
+        }
+
+        // l1不为空
+        if (l1)
+        {
+            cur -> next = l1;
+        }
+
+        // l2不为空
+        if (l2)
+        {
+            cur -> next = l2;
+        }
+
+        return dummy -> next;
+    }
+
 };
 
