@@ -14,56 +14,25 @@
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-
-        // 边界条件，如果两个链表其中一个为空    
-        if (headA == nullptr || headB == nullptr)
+        // 边界条件，两个链表中有一个为空
+        if (! headA || !headB)
         {
             return nullptr;
         }
 
-        // 获得两个链表的长度
-        int len1 = getListLen(headA);
-        int len2 = getListLen(headB);
-
-        // 求两个链表的长度差，将较长链表向前移动相应的步长     
-        if (len1 >= len2)
-        {
-            for (int i = 0; i < len1 - len2; ++i)
-            {
-                headA = headA -> next;
-            }
-        }
-        else  
-        {
-            for (int i = 0; i < len2 - len1; ++i)
-            {
-                headB = headB -> next;
-            }
-        }
-
-        // 寻找两个链表的相交点
-        while (headA != nullptr && headB != nullptr && headA != headB)
-        {
-            headA = headA -> next;
-            headB = headB -> next;
-        }
-
-        // 两个链表相交，则返回相应的节点，不想交返回nullptr
-        return (headA != nullptr && headB != nullptr) ? headA :nullptr;
+        ListNode *a = headA;
+        ListNode *b = headB;
         
-    }
-
-    // 获得链表长度的辅助函数
-    int getListLen(ListNode *head)
-    {
-        int len = 0;
-        while (head != nullptr)
+        // 两个节点相等的条件有2:
+        // 1. 节点a和节点b各自遍历两个链表的长度后到达末尾的空节点
+        // 2. 节点a遍历完链表headA后进入链表listB中向前进到达链表的交点
+        // 如果相交，节点a和节点b到达交点走过的长度一定相等
+        while (a != b)
         {
-            head = head -> next;
-            len++;
+            a = a ? a -> next : headB;
+            b = b ? b -> next : headA;
         }
-
-        return len;
+        return a;
     }
 };
 
