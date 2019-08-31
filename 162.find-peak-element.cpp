@@ -55,10 +55,12 @@ public:
         while (left < right)
         {
             int mid = left + (right - left) / 2;
+            // 峰值出现在右半部分
             if (nums[mid] < nums[mid + 1])
             {
                 left = mid + 1;
             }
+            // 峰值出现在左半部分
             else
             {
                 right = mid;
