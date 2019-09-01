@@ -14,16 +14,16 @@
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        ListNode *newHead = nullptr;   // 翻转后的链表的头结点
-        // 顺序遍历链表
-        while (head)
+        // 边界条件
+        if (head == nullptr || head -> next == nullptr)
         {
-            ListNode *temp = head -> next; // 指向待翻转节点的后一个节点
-            head -> next = newHead;        // 当前节点链接到翻转链表
-            newHead = head;                // 头节点向后移动
-            head = temp;                   // 带翻转节点向后移动
+            return head;
         }
-        return newHead;
+
+        ListNode *newHead = reverseList(head -> next);
+        head -> next -> next = head;  // 将当前节点链接到翻转的链表中
+        head -> next = nullptr;       // 从顺序链表中断开当前节点
+        return newHead;               
     }
 };
 
