@@ -15,25 +15,29 @@
 class Solution {
 public:
     bool isValidBST(TreeNode* root) {
-        return helper(root, LONG_MIN, LONG_MAX);
-    }
-
-    bool helper(TreeNode *root, long mn, long mx)
-    {
-        if (root == nullptr)
+        stack<TreeNode *> s;
+        TreeNode *p = root;
+        TreeNode *pre = nullptr;  
+        while (p || !s.empty())
         {
-            return true;      // 以root 为根的树为空
+            // 将当前节点压栈
+            while (p)
+            {
+                s.push(p);
+                p = p -> left;
+            }
+            // 栈中弹出保存的当前节点
+            p = s.top();
+            s.pop();
+            // 如果中序遍历中的前一个节点的值大于当前节点的值
+            if (pre && p -> val <= pre -> val)
+            {
+                return false;
+            }
+            pre = p;
+            p = p -> right;
         }
-        // 左右子树中的值必须满足一定的范围
-        if (root -> val <= mn || root -> val >= mx)
-        {
-            return false;
-        }
-
-        // 递归调用左右子树
-        // 左子树中的值小于根节点的值
-        // 右子树中的值大于根节点的值    
-        return helper(root -> left, mn, root -> val) && helper(root -> right, root -> val, mx);
+        return true;
     }
 };
 
