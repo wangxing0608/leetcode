@@ -73,7 +73,31 @@
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
-        
+        ListNode *slow = head;  // 慢指针
+        ListNode *fast = head;  // 快指针
+        while (fast && fast -> next)
+        {
+            slow = slow -> next;
+            fast = fast -> next -> next;
+            // 链表中有环, 跳出循环
+            if (slow == fast)
+            {
+                break;
+            }
+        }
+        // 如果链表无换,返回nullptr
+        if (fast == nullptr || fast -> next == nullptr)
+        {
+            return nullptr;
+        }
+        slow = head;
+        // 链表起点与环起点的距离与相遇点到环起点距离相等
+        while (slow != fast)
+        {
+            slow = slow -> next;
+            fast = fast -> next;
+        }
+        return fast;
     }
 };
 
