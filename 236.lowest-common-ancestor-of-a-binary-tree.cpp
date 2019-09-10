@@ -63,7 +63,19 @@
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        
+        if (root == nullptr || p == root || q == root)
+        {
+            return root;
+        }
+        // 在左子树中递归调用
+        TreeNode * left = lowestCommonAncestor(root -> left, p, q);
+        // 在右子树中递归调用
+        TreeNode *right = lowestCommonAncestor(root -> right, p, q);
+        if (left && right)
+        {
+            return root;
+        }
+        return left ? left : right;
     }
 };
 
